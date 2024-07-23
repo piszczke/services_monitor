@@ -1,5 +1,6 @@
 # services_monitor
-Monitor of all running services on local server 
+Monitor of all running services on local server designed to help with development software in real time
+
 ## Overview
 
 This project provides a Python script (`app.py`) designed to monitor and display the status of system services on a Linux machine, such as a Raspberry Pi. The script can display the status of all services or a specific list of services defined in an external JSON file. It supports color-coded status indicators and can be used with the `watch` command for continuous monitoring.
