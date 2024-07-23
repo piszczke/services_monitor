@@ -5,10 +5,15 @@ kontakt@piszczke.pl
 https://github.com/piszczke/services_monitor
 """
 
+# service_monitor.py
 import subprocess
 import json
 import argparse
 from tabulate import tabulate
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init(autoreset=True)
 
 def load_services_to_monitor(filename='services_to_monitor.json'):
     with open(filename, 'r') as file:
@@ -40,11 +45,26 @@ def filter_services(services, services_to_monitor):
     filtered_services = [service for service in services if service[0] in services_to_monitor]
     return filtered_services
 
+def colorize_status(services):
+    colored_services = []
+    for service in services:
+        name, load, active, sub, description = service
+        if active == 'active':
+            active_colored = f"{Fore.GREEN}{active}{Style.RESET_ALL}"
+        elif active == 'inactive':
+            active_colored = f"{Fore.YELLOW}{active}{Style.RESET_ALL}"
+        else:
+            active_colored = f"{Fore.RED}{active}{Style.RESET_ALL}"
+        
+        colored_services.append([name, load, active_colored, sub, description])
+    return colored_services
+
 def print_service_status(show_all):
     services_to_monitor = load_services_to_monitor()
     services = get_service_status()
     if not show_all:
         services = filter_services(services, services_to_monitor)
+    services = colorize_status(services)
     headers = ["Service", "Load", "Active", "Sub", "Description"]
     table = tabulate(services, headers, tablefmt="pretty")
     print(table)

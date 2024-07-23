@@ -6,7 +6,7 @@ Monitor of all running services on local server
 Dependence 
 
 ```bash
-pip install tabulate
+pip install tabulate colorama
 ```
 
 ## Run the script
