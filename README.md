@@ -11,6 +11,12 @@ pip install tabulate
 
 ## Run the script
 
+for services from the list
 ```bash
-watch -n 10 python3 app.py
+watch -n 10 python3 app.py -l
+```
+
+for all services
+```bash
+watch -n 10 python3 app.py -a
 ```
