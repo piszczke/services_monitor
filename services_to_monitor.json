@@ -1,0 +1,8 @@
+{
+    "services": [
+        "ssh.service",
+        "nginx.service",
+        "apache2.service",
+        "cron.service"
+    ]
+}

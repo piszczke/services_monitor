@@ -5,8 +5,15 @@ kontakt@piszczke.pl
 https://github.com/piszczke/services_monitor
 """
 
+# service_monitor.py
 import subprocess
+import json
 from tabulate import tabulate
+
+def load_services_to_monitor(filename='services_to_monitor.json'):
+    with open(filename, 'r') as file:
+        data = json.load(file)
+    return data['services']
 
 def get_service_status():
     # Run the systemctl command to get the status of all services
@@ -29,10 +36,16 @@ def get_service_status():
     
     return services
 
+def filter_services(services, services_to_monitor):
+    filtered_services = [service for service in services if service[0] in services_to_monitor]
+    return filtered_services
+
 def print_service_status():
+    services_to_monitor = load_services_to_monitor()
     services = get_service_status()
+    filtered_services = filter_services(services, services_to_monitor)
     headers = ["Service", "Load", "Active", "Sub", "Description"]
-    table = tabulate(services, headers, tablefmt="pretty")
+    table = tabulate(filtered_services, headers, tablefmt="pretty")
     print(table)
 
 if __name__ == "__main__":
