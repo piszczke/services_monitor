@@ -2,7 +2,7 @@
 Monitor of all running services on local server 
 ## Overview
 
-This project provides a Python script (`service_monitor.py`) designed to monitor and display the status of system services on a Linux machine, such as a Raspberry Pi. The script can display the status of all services or a specific list of services defined in an external JSON file. It supports color-coded status indicators and can be used with the `watch` command for continuous monitoring.
+This project provides a Python script (`app.py`) designed to monitor and display the status of system services on a Linux machine, such as a Raspberry Pi. The script can display the status of all services or a specific list of services defined in an external JSON file. It supports color-coded status indicators and can be used with the `watch` command for continuous monitoring.
 
 ## Features
 
@@ -30,19 +30,19 @@ pip install tabulate colorama
 git clone https://github.com/piszczke/services_monitor.git
 ```
 
-**Modify JSON File**:
-    Edit `services_to_monitor.json` to define the list of services to monitor:
-    ```json
-    {
-        "services": [
-            "ssh.service",
-            "nginx.service",
-            "apache2.service",
-            "cron.service"
-        ]
-    }
-    ```
+**Modify JSON File**
 
+Edit `services_to_monitor.json` to define the list of services to monitor:
+```json
+{
+    "services": [
+        "ssh.service",
+        "nginx.service",
+        "apache2.service",
+        "cron.service"
+    ]
+}
+```
 
 ## Usage
 
