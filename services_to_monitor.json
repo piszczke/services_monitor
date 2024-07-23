@@ -6,6 +6,7 @@
         "cron.service",
         "grafana-server.service",
         "bluetooth.service",
-        "mariadb.service"
+        "mariadb.service",
+        "postgresql.service"
     ]
 }
