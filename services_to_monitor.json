@@ -3,6 +3,9 @@
         "ssh.service",
         "nginx.service",
         "apache2.service",
-        "cron.service"
+        "cron.service",
+        "grafana-server.service",
+        "bluetooth.service",
+        "mariadb.service"
     ]
 }
