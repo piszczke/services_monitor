@@ -5,9 +5,9 @@ kontakt@piszczke.pl
 https://github.com/piszczke/services_monitor
 """
 
-# service_monitor.py
 import subprocess
 import json
+import argparse
 from tabulate import tabulate
 
 def load_services_to_monitor(filename='services_to_monitor.json'):
@@ -40,13 +40,27 @@ def filter_services(services, services_to_monitor):
     filtered_services = [service for service in services if service[0] in services_to_monitor]
     return filtered_services
 
-def print_service_status():
+def print_service_status(show_all):
     services_to_monitor = load_services_to_monitor()
     services = get_service_status()
-    filtered_services = filter_services(services, services_to_monitor)
+    if not show_all:
+        services = filter_services(services, services_to_monitor)
     headers = ["Service", "Load", "Active", "Sub", "Description"]
-    table = tabulate(filtered_services, headers, tablefmt="pretty")
+    table = tabulate(services, headers, tablefmt="pretty")
     print(table)
 
 if __name__ == "__main__":
-    print_service_status()
+    parser = argparse.ArgumentParser(description="Monitor the status of services on a Linux machine.")
+    parser.add_argument('-l', '--list', action='store_true', help='Show only services from the list')
+    parser.add_argument('-a', '--all', action='store_true', help='Show all services')
+
+    args = parser.parse_args()
+
+    if args.list and args.all:
+        print("Please choose either -l/--list or -a/--all, not both.")
+    elif args.list:
+        print_service_status(show_all=False)
+    elif args.all:
+        print_service_status(show_all=True)
+    else:
+        print("Please specify an option: -l/--list to show only services from the list, or -a/--all to show all services.")
