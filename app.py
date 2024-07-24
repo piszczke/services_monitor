@@ -5,7 +5,6 @@ kontakt@piszczke.pl
 https://github.com/piszczke/services_monitor
 """
 
-# service_monitor.py
 import subprocess
 import json
 import argparse
@@ -59,28 +58,34 @@ def colorize_status(services):
         colored_services.append([name, load, active_colored, sub, description])
     return colored_services
 
-def print_service_status(show_all):
+def print_service_status(show_all, grafana_output):
     services_to_monitor = load_services_to_monitor()
     services = get_service_status()
     if not show_all:
         services = filter_services(services, services_to_monitor)
-    services = colorize_status(services)
-    headers = ["Service", "Load", "Active", "Sub", "Description"]
-    table = tabulate(services, headers, tablefmt="pretty")
-    print(table)
+    if grafana_output:
+        print(json.dumps(services, indent=4))
+    else:
+        services = colorize_status(services)
+        headers = ["Service", "Load", "Active", "Sub", "Description"]
+        table = tabulate(services, headers, tablefmt="pretty")
+        print(table)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Monitor the status of services on a Linux machine.")
     parser.add_argument('-l', '--list', action='store_true', help='Show only services from the list')
     parser.add_argument('-a', '--all', action='store_true', help='Show all services')
+    parser.add_argument('-g', '--grafana', action='store_true', help='Output in JSON format for Grafana')
 
     args = parser.parse_args()
 
     if args.list and args.all:
         print("Please choose either -l/--list or -a/--all, not both.")
+    elif args.grafana:
+        print_service_status(show_all=True, grafana_output=True)
     elif args.list:
-        print_service_status(show_all=False)
+        print_service_status(show_all=False, grafana_output=False)
     elif args.all:
-        print_service_status(show_all=True)
+        print_service_status(show_all=True, grafana_output=False)
     else:
-        print("Please specify an option: -l/--list to show only services from the list, or -a/--all to show all services.")
+        print("Please specify an option: -l/--list to show only services from the list, -a/--all to show all services, or -g/--grafana for JSON output.")
