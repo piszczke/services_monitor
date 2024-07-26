@@ -87,6 +87,7 @@ watch -n 10 python3 app.py -a
 6. **Command-Line Arguments**:
     - `-l` or `--list`: Show only services from the list.
     - `-a` or `--all`: Show all services.
+    - `-g` or `--grafana` : Show JSON output for grafana visualization 
 
 7. **Main Execution Block**:
     - Parses command-line arguments.
